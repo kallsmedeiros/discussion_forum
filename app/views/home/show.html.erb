@@ -1,0 +1,46 @@
+<%= link_to 'home', home_path %>
+<p>
+  <%= @thread.id %>
+  <%= @thread.created_at.strftime("%Y-%m-%d %H:%M:%S") %>
+  - <%= @thread.text %>
+  <button class="btn-reply" onclick="show_form(<%= @thread.id %>);">Reply</button>
+</p>
+<% @forum_threads.each do |ft| %>
+  <p>
+    <%= ('&nbsp ' * ft.level).html_safe %>
+    <%= ft.id %>
+    <%= ft.created_at.strftime("%Y-%m-%d %H:%M:%S") %>
+     - <%= ft.text %>
+    <button class="btn-reply" onclick="show_form(<%= ft.id %>);">Reply</button>
+  </p>
+<% end %>
+<br>
+<%= paginate @forum_threads if @forum_threads.present? %>
+
+
+<div class="w3-container">
+  <div id="modal-reply" class="w3-modal">
+    <div class="w3-modal-content">
+      <div class="w3-container">
+        <span onclick="document.getElementById('modal-reply').style.display='none'" class="w3-button w3-display-topright">&times;</span>
+        <p>
+          <%= form_for(@new_thread) do |f| %>
+            <%= hidden_field_tag :id, @thread.id %>
+            <%= hidden_field_tag :page, params[:page] %>
+            <%= f.hidden_field :parent_id %>
+            <%= f.text_field :text %>
+            <%= f.submit %>
+          <% end %>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  function show_form(id){
+    $('#forum_thread_parent_id').val(id);
+    $('#modal-reply').show();
+  }
+
+</script>

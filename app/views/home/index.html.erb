@@ -1,0 +1,13 @@
+<%= link_to 'home', home_path %>
+<%= form_for(@new_thread) do |f| %>
+<%= f.text_field :text %>
+<%= f.submit %>
+<% end %>
+<br>
+<% @forum_threads.each do |ft| %>
+  <p><%= link_to "#{ft.id}. #{ft.created_at.strftime("%Y-%m-%d %H:%M:%S")}", home_show_path(ft) %>
+     - <%= ft.text %>
+  </p>
+<% end %>
+<br>
+<%= paginate @forum_threads if @forum_threads.present? %>
