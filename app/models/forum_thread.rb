@@ -1,5 +1,5 @@
 class ForumThread < ApplicationRecord
-  belongs_to :parent, :class_name => "ForumThread"
+  belongs_to :parent, :class_name => "ForumThread", optional: true
   has_many :children, :class_name => "ForumThread", :foreign_key => 'parent_id'
   before_save :change_text_backlist
   before_save :set_level
